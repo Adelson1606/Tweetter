@@ -1,4 +1,4 @@
-const posts = [
+let posts = [
   {
     text: 'First post!',
     id: 'p1',
@@ -18,6 +18,19 @@ const posts = [
     ]
   }
 ]
+
+const newLocal = 'tweetweData'
+if (!localStorage.getItem(newLocal)) {
+  saveData()
+} else {
+  posts = JSON.parse(localStorage.getItem(newLocal))
+}
+
+
+function saveData () {
+  localStorage.setItem(newLocal, JSON.stringify(posts))
+}
+
 let postIdCounter = posts.length + 1
 
 let commentIdCounter = 0
@@ -36,6 +49,7 @@ function addPost (text) {
   newPost.comments = []
   posts.push(newPost)
   postIdCounter++
+  saveData()
   return posts
 }
 
@@ -45,6 +59,7 @@ function removePost (postID) {
       posts.splice(i, 1)
     }
   }
+  saveData()
   return posts
 }
 // addPost("Hello")
@@ -64,6 +79,7 @@ function addComment (text, postID) {
       posts[i].comments.push(newComment)
     }
   }
+  saveData()
   return posts
 }
 
@@ -77,6 +93,7 @@ function removeComment (postID, commentID) {
       }
     }
   }
+  saveData()
   return posts
 }
 
